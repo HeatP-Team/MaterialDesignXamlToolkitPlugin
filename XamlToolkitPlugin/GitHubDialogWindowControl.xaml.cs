@@ -1,5 +1,8 @@
 ﻿using System.Windows.Forms;
 using EnvDTE;
+using Microsoft.VisualStudio.Settings;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Settings;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace XamlToolkitPlugin
@@ -20,8 +23,14 @@ namespace XamlToolkitPlugin
         public GitHubDialogWindowControl()
         {
             InitializeComponent();
+            SettingsManager settingsManager = new ShellSettingsManager(ServiceProvider.GlobalProvider);
+            WritableSettingsStore userSettingsStore = settingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);
+            if (userSettingsStore.CollectionExists("XamlToolkit"))
+            {
+                FilePath.Text = userSettingsStore.GetString("XamlToolkit", "Directory");
+            }
+
             DataContext = new GitHubDialogViewModel();
-            FilePath.Text = ConfigurationManager.AppSettings["DirectoryPath"];
         }
 
         /// <summary>

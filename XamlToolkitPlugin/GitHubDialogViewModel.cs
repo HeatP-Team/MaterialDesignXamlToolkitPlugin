@@ -3,8 +3,11 @@ using System.Configuration;
 using System.Linq;
 using System.Diagnostics;
 using System.Windows.Input;
+using Microsoft.VisualStudio.Package;
 using Microsoft.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.Settings;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Settings;
 
 namespace XamlToolkitPlugin
 {
@@ -48,24 +51,17 @@ namespace XamlToolkitPlugin
 
         public static void SaveDirectorySettings(string directoryPath)
         {
-            var appSettings = new AppSettings();
-            var configMap = new ExeConfigurationFileMap
+            SettingsManager settingsManager = new ShellSettingsManager(ServiceProvider.GlobalProvider);
+            WritableSettingsStore userSettingsStore = settingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);
+            if (!userSettingsStore.CollectionExists("XamlToolkit"))
             {
-                ExeConfigFilename = AppDomain.CurrentDomain.BaseDirectory + appSettings.ConfigPath
-            };
-            var config = ConfigurationManager.OpenMappedExeConfiguration(configMap, ConfigurationUserLevel.None);
-            try
-            {
-                config.AppSettings.Settings["DirectoryPath"].Value = directoryPath;
+                userSettingsStore.CreateCollection("XamlToolkit");
+                userSettingsStore.SetString("XamlToolkit", "Directory", directoryPath);
             }
-            catch (Exception)
+            else
             {
-                config.AppSettings.Settings.Add("DirectoryPath", directoryPath);
+                userSettingsStore.SetString("XamlToolkit", "Directory", directoryPath);
             }
-
-            config.Save(ConfigurationSaveMode.Modified);
-
-            ConfigurationManager.RefreshSection("appSettings");
         }
     }
 }
