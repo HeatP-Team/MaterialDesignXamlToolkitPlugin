@@ -51,7 +51,7 @@ namespace XamlToolkitPlugin
             var appSettings = new AppSettings();
             var configMap = new ExeConfigurationFileMap
             {
-                ExeConfigFilename = @"C:\Users\Admin\Documents\Programming\CSharp\XamlToolkitPlugin\directory.config"
+                ExeConfigFilename = AppDomain.CurrentDomain.BaseDirectory + appSettings.ConfigPath
             };
             var config = ConfigurationManager.OpenMappedExeConfiguration(configMap, ConfigurationUserLevel.None);
             try
