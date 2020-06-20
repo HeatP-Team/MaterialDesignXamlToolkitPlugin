@@ -24,7 +24,7 @@
                 <Button Width="100" Height="30" HorizontalAlignment="Center" FontSize="18" Margin="480 0 100 0"
                         Command="{Binding RunCommand}" CommandParameter="{Binding Text, ElementName=FilePath}">Run</Button>
                 <Button Width="100" Height="30" HorizontalAlignment="Center" FontSize="18"
-                        Command="{Binding DownloadCommand}">Download</Button>
+                        Click="DowloadOnClick">Download</Button>
             </StackPanel>
         </StackPanel>
     </Grid>

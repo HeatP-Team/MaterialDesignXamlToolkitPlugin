@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="XamlToolkitPlugin" GeneratedClassName="AppSettings">
+  <Profiles />
+  <Settings>
+    <Setting Name="GitPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit.git</Value>
+    </Setting>
+    <Setting Name="ExePath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">\MaterialDesignInXamlToolkit\MainDemo.Wpf\bin\Debug\netcoreapp3.1\MaterialDesignDemo.exe</Value>
+    </Setting>
+    <Setting Name="SlnPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">\MaterialDesignInXamlToolkit\MaterialDesignToolkit.Full.sln</Value>
+    </Setting>
+    <Setting Name="ConfigPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">\..\..\directory.config</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
