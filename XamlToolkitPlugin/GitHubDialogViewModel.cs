@@ -13,13 +13,7 @@ namespace XamlToolkitPlugin
     {
         public static void Run(string filePath)
         {
-            var toolKit = new Process()
-            {
-                StartInfo = {FileName = filePath},
-                EnableRaisingEvents = true
-            };
-
-            toolKit.Start();
+            Process.Start(filePath);
         }
         public static void Download(string directoryPath)
         {
