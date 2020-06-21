@@ -28,7 +28,8 @@ namespace XamlToolkitPlugin
         {
             var appSettings = new AppSettings();
             Process.Start("dotnet", $"build {Path.Combine(directoryPath, appSettings.SlnPath)}")?.WaitForExit();
-            Process.Start(new ProcessStartInfo("dotnet", "build-server shutdown") {CreateNoWindow = true})?.WaitForExit();
+            Process.Start(new ProcessStartInfo("dotnet", "build-server shutdown")
+                { CreateNoWindow = false, WindowStyle = ProcessWindowStyle.Hidden })?.WaitForExit();
         }
 
         public ICommand RunCommand
@@ -56,7 +57,8 @@ namespace XamlToolkitPlugin
         {
             var gitDirectory = Path.Combine(directory, "MaterialDesignInXamlToolkit");
 
-            var process = Process.Start(new ProcessStartInfo("cmd.exe", $"/C cd {gitDirectory} && git pull") {CreateNoWindow = false});
+            var process = Process.Start(new ProcessStartInfo("cmd.exe", $"/C cd {gitDirectory} && git pull")
+                {CreateNoWindow = false, WindowStyle = ProcessWindowStyle.Hidden});
 
             process?.WaitForExit();
 
