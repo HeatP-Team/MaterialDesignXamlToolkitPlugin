@@ -7,7 +7,8 @@
              Background="#FF2D2D30"
              Foreground="#FFF1F1F1"
              mc:Ignorable="d"
-             Width="1280" Height="720">
+             Width="1280" Height="720"
+             IsVisibleChanged="GitHubDialogWindowControl_OnIsVisibleChanged">
     <Grid>
         <StackPanel>
             <TextBlock Text="Welcome to Xaml Toolkit"
@@ -16,15 +17,16 @@
                        FontSize="18" TextAlignment="Center" Margin="0 20 0 20"/>
 
             <StackPanel Orientation="Horizontal" Margin="0 40 0 40">
-                <TextBox Name="FilePath" Width="600" IsReadOnly="True" Margin="270 0 50 0"/>
+                <TextBox Name="FilePath" Width="600" IsReadOnly="True" Margin="270 0 50 0" FontSize="18" TextAlignment="Center"/>
                 <Button Name="Browse" Width="100" Height="30" FontSize="18" Click="Browse_OnClick">Browse</Button>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
                 <Button Width="100" Height="30" HorizontalAlignment="Center" FontSize="18" Margin="480 0 100 0"
+                        Click="Run_OnClick"
                         Command="{Binding RunCommand}" CommandParameter="{Binding Text, ElementName=FilePath}">Run</Button>
                 <Button Width="100" Height="30" HorizontalAlignment="Center" FontSize="18"
-                        Click="DowloadOnClick">Download</Button>
+                        Click="DownloadOnClick">Download</Button>
             </StackPanel>
         </StackPanel>
     </Grid>

@@ -46,7 +46,7 @@
         <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1"/>
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>GitHubDialogWindow</ButtonText>
+          <ButtonText>XAML Toolkit</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -61,6 +61,13 @@
       <Bitmap guid="guidImages" href="Resources\GitHubDialogWindowCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough"/>
     </Bitmaps>
   </Commands>
+
+  <KeyBindings>
+    <KeyBinding guid="guidXamlToolkitPluginPackageCmdSet" id="GitHubDialogWindowCommandId"
+                editor="guidVSStd97"
+                key1="G" mod1="Alt">
+    </KeyBinding>
+  </KeyBindings>
 
   <Symbols>
     <!-- This is the package guid. -->
