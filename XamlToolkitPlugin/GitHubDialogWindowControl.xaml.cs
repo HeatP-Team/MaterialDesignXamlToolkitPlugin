@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.Settings;
@@ -81,6 +82,7 @@ namespace XamlToolkitPlugin
 
             try
             {
+                GitHubDialogViewModel.UpdateDirectory(directory);
                 GitHubDialogViewModel.Run(Path.Combine(directory, AppSettings.Default.ExePath));
                 Window.GetWindow(this).Close();
             }

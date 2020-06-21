@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Diagnostics;
 using System.Windows.Input;
@@ -21,6 +22,7 @@ namespace XamlToolkitPlugin
 
             toolKit.Start();
         }
+
         public static void Download(string directoryPath)
         {
             var appSettings = new AppSettings();
@@ -36,13 +38,14 @@ namespace XamlToolkitPlugin
         }
 
         public ICommand RunCommand
-            => new DelegateCommand(obj => Run(obj as string), 
-                obj => ((string)obj).Any());
+            => new DelegateCommand(obj => Run(obj as string),
+                obj => ((string) obj).Any());
 
         public static void SaveDirectorySettings(string directoryPath)
         {
             SettingsManager settingsManager = new ShellSettingsManager(ServiceProvider.GlobalProvider);
-            WritableSettingsStore userSettingsStore = settingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);
+            WritableSettingsStore userSettingsStore =
+                settingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);
             if (!userSettingsStore.CollectionExists("XamlToolkit"))
                 userSettingsStore.CreateCollection("XamlToolkit");
 
@@ -53,6 +56,22 @@ namespace XamlToolkitPlugin
         {
             return Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(
                 Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(exePath))))));
+        }
+
+        public static void UpdateDirectory(string directory)
+        {
+            var gitDirectory = Path.Combine(directory, "MaterialDesignInXamlToolkit");
+
+            var start = DateTime.Now;
+
+            Process.Start("cmd.exe", $"/C cd {gitDirectory} && git pull")?.WaitForExit();
+
+            var finish = DateTime.Now;
+
+            if ((finish - start).Seconds > 10)
+            {
+                BuildProject(directory);
+            }
         }
     }
 }
