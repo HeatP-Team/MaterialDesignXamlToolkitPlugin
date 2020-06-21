@@ -1,10 +1,7 @@
-﻿using System;
-using System.Configuration;
+﻿using System.IO;
 using System.Linq;
 using System.Diagnostics;
-using System.IO;
 using System.Windows.Input;
-using Microsoft.VisualStudio.Package;
 using Microsoft.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Shell;
@@ -14,12 +11,6 @@ namespace XamlToolkitPlugin
 {
     public class GitHubDialogViewModel
     {
-        private bool IsDownloaded { get; }
-        public GitHubDialogViewModel()
-        {
-            //TODO Check file existing in IsDownloaded from App config
-        }
-
         public static void Run(string filePath)
         {
             var toolKit = new Process()
@@ -29,8 +20,6 @@ namespace XamlToolkitPlugin
             };
 
             toolKit.Start();
-
-            //TODO Add onProcessEnd event
         }
         public static void Download(string directoryPath)
         {
@@ -42,8 +31,8 @@ namespace XamlToolkitPlugin
         public static void BuildProject(string directoryPath)
         {
             var appSettings = new AppSettings();
-            var process = Process.Start("dotnet", $"build {Path.Combine(directoryPath, appSettings.SlnPath)}");
-            process?.WaitForExit();
+            Process.Start("dotnet", $"build {Path.Combine(directoryPath, appSettings.SlnPath)}")?.WaitForExit();
+            Process.Start("dotnet", "build-server shutdown")?.WaitForExit();
         }
 
         public ICommand RunCommand
