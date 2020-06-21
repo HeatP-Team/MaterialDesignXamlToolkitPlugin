@@ -20,7 +20,7 @@ namespace XamlToolkitPlugin
             //TODO Check file existing in IsDownloaded from App config
         }
 
-        private void Run(string filePath)
+        public static void Run(string filePath)
         {
             var toolKit = new Process()
             {
@@ -58,6 +58,12 @@ namespace XamlToolkitPlugin
                 userSettingsStore.CreateCollection("XamlToolkit");
 
             userSettingsStore.SetString("XamlToolkit", "Directory", directoryPath);
+        }
+
+        public static string GetDirectoryNameFromExe(string exePath)
+        {
+            return Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(
+                Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(exePath))))));
         }
     }
 }

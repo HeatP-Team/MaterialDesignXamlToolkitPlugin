@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows.Forms;
 using EnvDTE;
 using Microsoft.VisualStudio.Settings;
@@ -28,7 +29,18 @@ namespace XamlToolkitPlugin
             WritableSettingsStore userSettingsStore = settingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);
             if (userSettingsStore.CollectionExists("XamlToolkit"))
             {
-                FilePath.Text = userSettingsStore.GetString("XamlToolkit", "Directory");
+                var directory = userSettingsStore.GetString("XamlToolkit", "Directory");
+                if (!string.IsNullOrWhiteSpace(directory))
+                {
+                    try
+                    {
+                        GitHubDialogViewModel.Run(Path.Combine(directory, AppSettings.Default.ExePath));
+                    }
+                    catch (Exception)
+                    {
+                        GitHubDialogViewModel.SaveDirectorySettings("");
+                    }
+                }
             }
 
             DataContext = new GitHubDialogViewModel();
@@ -54,7 +66,7 @@ namespace XamlToolkitPlugin
             {
                 FilePath.Text = op.FileName;
 
-                GitHubDialogViewModel.SaveDirectorySettings(op.FileName);
+                GitHubDialogViewModel.SaveDirectorySettings(GitHubDialogViewModel.GetDirectoryNameFromExe(op.FileName));
             }
         }
 
