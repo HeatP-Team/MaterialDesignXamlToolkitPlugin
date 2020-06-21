@@ -1,15 +1,22 @@
-﻿using Microsoft.Win32;
+﻿using System.IO;
+using System.Windows.Forms;
+using EnvDTE;
+using Microsoft.VisualStudio.Settings;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Settings;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace XamlToolkitPlugin
 {
     using System.Diagnostics.CodeAnalysis;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Configuration;
 
     /// <summary>
     /// Interaction logic for GitHubDialogWindowControl.
     /// </summary>
-    public partial class GitHubDialogWindowControl : UserControl
+    public partial class GitHubDialogWindowControl : System.Windows.Controls.UserControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GitHubDialogWindowControl"/> class.
@@ -17,6 +24,13 @@ namespace XamlToolkitPlugin
         public GitHubDialogWindowControl()
         {
             InitializeComponent();
+            SettingsManager settingsManager = new ShellSettingsManager(ServiceProvider.GlobalProvider);
+            WritableSettingsStore userSettingsStore = settingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);
+            if (userSettingsStore.CollectionExists("XamlToolkit"))
+            {
+                FilePath.Text = userSettingsStore.GetString("XamlToolkit", "Directory");
+            }
+
             DataContext = new GitHubDialogViewModel();
         }
 
@@ -36,8 +50,29 @@ namespace XamlToolkitPlugin
                 Filter = "Xaml Toolkit (MaterialDesignDemo.exe)|MaterialDesignDemo.exe"
             };
 
-            if (op.ShowDialog() == true)
+            if (op.ShowDialog() == true && !string.IsNullOrWhiteSpace(op.FileName))
+            {
                 FilePath.Text = op.FileName;
+
+                GitHubDialogViewModel.SaveDirectorySettings(op.FileName);
+            }
+        }
+
+        private void DowloadOnClick(object sender, RoutedEventArgs e)
+        {
+            var appSettings = new AppSettings();
+            using (var fbd = new FolderBrowserDialog())
+            {
+                var result = fbd.ShowDialog();
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    GitHubDialogViewModel.Download(Path.Combine(fbd.SelectedPath,"MaterialDesignInXamlToolkit"));
+                    GitHubDialogViewModel.BuildProject(fbd.SelectedPath);
+                    FilePath.Text = Path.Combine(fbd.SelectedPath, appSettings.ExePath);
+
+                    GitHubDialogViewModel.SaveDirectorySettings(fbd.SelectedPath);
+                }
+            }
         }
     }
 }
