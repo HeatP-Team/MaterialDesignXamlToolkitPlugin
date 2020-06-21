@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.IO;
+using System.Windows.Forms;
 using EnvDTE;
 using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Shell;
@@ -65,9 +66,9 @@ namespace XamlToolkitPlugin
                 var result = fbd.ShowDialog();
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
-                    GitHubDialogViewModel.Download(fbd.SelectedPath + "\\MaterialDesignInXamlToolkit");
-                    GitHubDialogViewModel.CreateExecutable(fbd.SelectedPath);
-                    FilePath.Text = fbd.SelectedPath + appSettings.ExePath;
+                    GitHubDialogViewModel.Download(Path.Combine(fbd.SelectedPath,"MaterialDesignInXamlToolkit"));
+                    GitHubDialogViewModel.BuildProject(fbd.SelectedPath);
+                    FilePath.Text = Path.Combine(fbd.SelectedPath, appSettings.ExePath);
 
                     GitHubDialogViewModel.SaveDirectorySettings(fbd.SelectedPath);
                 }

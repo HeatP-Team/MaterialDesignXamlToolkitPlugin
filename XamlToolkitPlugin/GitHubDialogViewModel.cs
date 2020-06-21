@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Linq;
 using System.Diagnostics;
+using System.IO;
 using System.Windows.Input;
 using Microsoft.VisualStudio.Package;
 using Microsoft.VisualStudio.PlatformUI;
@@ -38,10 +39,10 @@ namespace XamlToolkitPlugin
             process?.WaitForExit();
         }
 
-        public static void CreateExecutable(string directoryPath)
+        public static void BuildProject(string directoryPath)
         {
             var appSettings = new AppSettings();
-            var process = Process.Start("dotnet", $"build {directoryPath}{appSettings.SlnPath}");
+            var process = Process.Start("dotnet", $"build {Path.Combine(directoryPath, appSettings.SlnPath)}");
             process?.WaitForExit();
         }
 
@@ -54,14 +55,9 @@ namespace XamlToolkitPlugin
             SettingsManager settingsManager = new ShellSettingsManager(ServiceProvider.GlobalProvider);
             WritableSettingsStore userSettingsStore = settingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);
             if (!userSettingsStore.CollectionExists("XamlToolkit"))
-            {
                 userSettingsStore.CreateCollection("XamlToolkit");
-                userSettingsStore.SetString("XamlToolkit", "Directory", directoryPath);
-            }
-            else
-            {
-                userSettingsStore.SetString("XamlToolkit", "Directory", directoryPath);
-            }
+
+            userSettingsStore.SetString("XamlToolkit", "Directory", directoryPath);
         }
     }
 }

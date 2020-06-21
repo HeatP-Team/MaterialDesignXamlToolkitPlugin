@@ -34,8 +34,8 @@ namespace XamlToolkitPlugin {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("\\MaterialDesignInXamlToolkit\\MainDemo.Wpf\\bin\\Debug\\netcoreapp3.1\\MaterialDesignD" +
-            "emo.exe")]
+        [global::System.Configuration.DefaultSettingValueAttribute("MaterialDesignInXamlToolkit\\MainDemo.Wpf\\bin\\Debug\\netcoreapp3.1\\MaterialDesignDe" +
+            "mo.exe")]
         public string ExePath {
             get {
                 return ((string)(this["ExePath"]));
@@ -44,19 +44,10 @@ namespace XamlToolkitPlugin {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("\\MaterialDesignInXamlToolkit\\MaterialDesignToolkit.Full.sln")]
+        [global::System.Configuration.DefaultSettingValueAttribute("MaterialDesignInXamlToolkit\\MaterialDesignToolkit.Full.sln")]
         public string SlnPath {
             get {
                 return ((string)(this["SlnPath"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("\\..\\..\\directory.config")]
-        public string ConfigPath {
-            get {
-                return ((string)(this["ConfigPath"]));
             }
         }
     }
