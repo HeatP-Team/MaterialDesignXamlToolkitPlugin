@@ -56,16 +56,12 @@ namespace XamlToolkitPlugin
         {
             var gitDirectory = Path.Combine(directory, "MaterialDesignInXamlToolkit");
 
-            var start = DateTime.Now;
+            var process = Process.Start(new ProcessStartInfo("cmd.exe", $"/C cd {gitDirectory} && git pull") {CreateNoWindow = false});
 
-            Process.Start("cmd.exe", $"/C cd {gitDirectory} && git pull")?.WaitForExit();
+            process?.WaitForExit();
 
-            var finish = DateTime.Now;
-
-            if ((finish - start).Seconds > 10)
-            {
+            if(process?.ExitCode != 0)
                 BuildProject(directory);
-            }
         }
     }
 }
