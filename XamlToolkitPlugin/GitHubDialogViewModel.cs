@@ -14,13 +14,7 @@ namespace XamlToolkitPlugin
     {
         public static void Run(string filePath)
         {
-            var toolKit = new Process()
-            {
-                StartInfo = {FileName = filePath},
-                EnableRaisingEvents = true
-            };
-
-            toolKit.Start();
+            Process.Start(filePath);
         }
 
         public static void Download(string directoryPath)
@@ -34,7 +28,7 @@ namespace XamlToolkitPlugin
         {
             var appSettings = new AppSettings();
             Process.Start("dotnet", $"build {Path.Combine(directoryPath, appSettings.SlnPath)}")?.WaitForExit();
-            Process.Start("dotnet", "build-server shutdown")?.WaitForExit();
+            Process.Start(new ProcessStartInfo("dotnet", "build-server shutdown") {CreateNoWindow = true})?.WaitForExit();
         }
 
         public ICommand RunCommand
